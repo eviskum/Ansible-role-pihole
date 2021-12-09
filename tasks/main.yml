@@ -1,0 +1,37 @@
+---
+
+- name: Install git packages
+  apt:
+    name:
+      - git
+      - git-crypt
+    state: present
+    update_cache: yes
+
+- name: Install avahi-daemon
+  apt:
+    name: avahi-daemon
+    update_cache: yes
+- name: Start avahi-daemon
+  service:
+    name: avahi-daemon
+    state: started
+    enabled: true
+
+- name: Download Pi-hole
+  git:
+    repo: https://github.com/pi-hole/pi-hole.git
+    dest: /root/Pi-hole
+    depth: 1
+
+#- name: Next steps 
+#  gather_facts: False
+#  tasks:
+#    - debug:
+#        msg: Pi-hole is ready for installation. Please continue with the manual installer.
+#    - debug:
+#        msg: su - root
+#    - debug:
+#        msg: cd Pi-hole; cd automated install
+#    - debug:
+#        msg: bash install.sh
